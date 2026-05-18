@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<head>
+    <%- include('./Partials/Head'); %>
+</head>
+
+<html lang="en">
+<%- include('./Partials/Navbar'); %>
+    <%- include('./Partials/Mode'); %>
+
+        <body>
+            <div class="max-w-4xl mx-auto mt-24 px-6 text-center">
+                <h1 class="text-2xl md:text-4xl font-bold text-gray-800 dark:text-gray-500 leading-relaxed">
+                    Use the options below to perform statistical calculations efficiently.
+                </h1>
+
+                <p class="mt-4 text-lg md:text-xl text-gray-600 dark:text-gray-500 leading-relaxed">
+                    This tool is designed to help students analyze data and solve problems like mean, median, mode, and
+                    standard deviation with ease.
+                </p>
+            </div>
+
+            <div class="mt-12 flex flex-col md:flex-row justify-center items-center gap-6">
+
+                <!-- Statistical Method -->
+                <a href="/Statistical" class="px-8 py-4 text-lg md:text-xl font-semibold text-black 
+            bg-blue-200 rounded-2xl shadow-md
+            hover:bg-blue-300 hover:scale-105 hover:shadow-lg
+            transition duration-300 ease-in-out">
+                    📊 Statistical Method
+                </a>
+
+                <!-- Numerical Method -->
+                <a href="#" class="px-8 py-4 text-lg md:text-xl font-semibold text-black 
+            bg-purple-200 rounded-2xl shadow-md
+            hover:bg-pink-300 hover:scale-105 hover:shadow-lg
+            transition duration-300 ease-in-out">
+                    🔢 Numerical Method
+                </a>
+
+            </div>
+
+        </body>
+
+        <%- include('./Partials/footer'); %>
+        
+
+</html>

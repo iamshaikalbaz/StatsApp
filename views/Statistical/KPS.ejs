@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../Partials/Head'); %>
+</head>
+
+    <%- include('../Partials/Navbar'); %>
+    <%- include('../Partials/Mode'); %>
+
+<body class="bg-gradient-to-br from-blue-50 via-white to-purple-100 min-h-screen px-6 py-16">
+
+<div class="max-w-7xl mx-auto">
+
+    <!-- Heading -->
+    <div class="text-center mb-10">
+
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">
+            Karl Pearson Skewness
+        </h1>
+
+        <p class="mt-3 text-lg text-gray-600">
+            Enter Class Interval and Frequency
+        </p>
+
+    </div>
+
+    <!-- Input Table -->
+    <div class="bg-white shadow-xl rounded-3xl overflow-hidden">
+
+        <table class="w-full text-center">
+
+            <thead class="bg-gray-100 text-gray-700 text-lg">
+
+                <tr>
+
+                    <th class="border py-4">S.No</th>
+
+                    <th class="border py-4">Class Interval</th>
+
+                    <th class="border py-4">Frequency (f)</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="table-body">
+
+                <tr>
+
+                    <td class="border p-4 font-bold">1</td>
+
+                    <td class="border p-4">
+
+                        <div class="flex justify-center gap-2">
+
+                            <input type="number"
+                                placeholder="10"
+                                class="w-24 px-3 py-2 border rounded-xl text-center">
+
+                            <span class="mt-2">-</span>
+
+                            <input type="number"
+                                placeholder="20"
+                                class="w-24 px-3 py-2 border rounded-xl text-center">
+
+                        </div>
+
+                    </td>
+
+                    <td class="border p-4">
+
+                        <input type="number"
+                            placeholder="f"
+                            class="w-24 px-3 py-2 border rounded-xl text-center">
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex justify-center gap-4 mt-10">
+
+        <button onclick="addRow()"
+            class="px-6 py-3 bg-blue-200 rounded-2xl font-bold hover:bg-blue-300 transition">
+
+            ➕ Add Row
+
+        </button>
+
+        <button onclick="calculate()"
+            class="px-6 py-3 bg-green-200 rounded-2xl font-bold hover:bg-green-300 transition">
+
+            📊 Calculate
+
+        </button>
+
+         <a href="/Statistical" class="px-6 py-3 text-lg font-semibold text-black bg-pink-200 rounded-2xl shadow-md
+         hover:bg-pink-300 hover:scale-105 hover:shadow-lg
+         transition duration-300">
+                            👈 Back
+                    </a>
+
+    </div>
+
+    <!-- Result -->
+    <div id="result-section" class="hidden mt-14">
+
+        <h2 class="text-3xl font-bold text-center mb-6">
+            Calculation Table
+        </h2>
+
+        <div class="overflow-x-auto bg-white shadow-lg rounded-2xl">
+
+            <table class="w-full text-center border">
+
+                <thead class="bg-gray-100">
+
+                    <tr>
+
+                        <th class="border p-3">C.I</th>
+
+                        <th class="border p-3">Fi</th>
+
+                        <th class="border p-3">Xi</th>
+
+                        <th class="border p-3">FiXi</th>
+
+                        <th class="border p-3">Xi - X̄</th>
+
+                        <th class="border p-3">(Xi-X̄)²</th>
+
+                        <th class="border p-3">Fi(Xi-X̄)²</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="result-body"></tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Formula -->
+        <div id="formula"
+            class="mt-8 bg-blue-50 p-8 rounded-2xl shadow-md text-gray-800">
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let count = 1;
+
+// ➕ Add Row
+function addRow() {
+
+    count++;
+
+    const table = document.getElementById("table-body");
+
+    const row = `
+
+    <tr>
+
+        <td class="border p-4 font-bold">
+            ${count}
+        </td>
+
+        <td class="border p-4">
+
+            <div class="flex justify-center gap-2">
+
+                <input type="number"
+                    class="w-24 px-3 py-2 border rounded-xl text-center"
+                    placeholder="Lower">
+
+                <span class="mt-2">-</span>
+
+                <input type="number"
+                    class="w-24 px-3 py-2 border rounded-xl text-center"
+                    placeholder="Upper">
+
+            </div>
+
+        </td>
+
+        <td class="border p-4">
+
+            <input type="number"
+                class="w-24 px-3 py-2 border rounded-xl text-center"
+                placeholder="f">
+
+        </td>
+
+    </tr>
+
+    `;
+
+    table.insertAdjacentHTML("beforeend", row);
+
+}
+
+
+
+// 📊 Calculate
+function calculate() {
+
+    const rows = document.querySelectorAll("#table-body tr");
+
+    const resultBody = document.getElementById("result-body");
+
+    const formulaDiv = document.getElementById("formula");
+
+    resultBody.innerHTML = "";
+
+    formulaDiv.innerHTML = "";
+
+    let data = [];
+
+    let totalFi = 0;
+
+    let totalFixi = 0;
+
+    let maxFi = 0;
+
+    let modalClass = null;
+
+    // 🔹 Collect Data
+    rows.forEach(row => {
+
+        const inputs = row.querySelectorAll("input");
+
+        const lower = parseFloat(inputs[0].value);
+
+        const upper = parseFloat(inputs[1].value);
+
+        const fi = parseFloat(inputs[2].value);
+
+        if (isNaN(lower) || isNaN(upper) || isNaN(fi)) return;
+
+        const xi = (lower + upper) / 2;
+
+        const fixi = fi * xi;
+
+        totalFi += fi;
+
+        totalFixi += fixi;
+
+        if (fi > maxFi) {
+
+            maxFi = fi;
+
+            modalClass = {
+                lower,
+                upper,
+                fi
+            };
+
+        }
+
+        data.push({
+            lower,
+            upper,
+            fi,
+            xi,
+            fixi
+        });
+
+    });
+
+    if (data.length === 0) {
+
+        alert("Please enter valid data!");
+
+        return;
+    }
+
+    // 🔹 Mean
+    const mean = totalFixi / totalFi;
+
+    let totalFiSquare = 0;
+
+    // 🔹 Table Build
+    data.forEach(d => {
+
+        const minusMean = d.xi - mean;
+
+        const square = minusMean * minusMean;
+
+        const fiSquare = d.fi * square;
+
+        totalFiSquare += fiSquare;
+
+        resultBody.innerHTML += `
+
+        <tr>
+
+            <td class="border p-3">
+                ${d.lower}-${d.upper}
+            </td>
+
+            <td class="border p-3">
+                ${d.fi}
+            </td>
+
+            <td class="border p-3">
+                ${d.xi.toFixed(2)}
+            </td>
+
+            <td class="border p-3">
+                ${d.fixi.toFixed(2)}
+            </td>
+
+            <td class="border p-3">
+                ${minusMean.toFixed(2)}
+            </td>
+
+            <td class="border p-3">
+                ${square.toFixed(2)}
+            </td>
+
+            <td class="border p-3">
+                ${fiSquare.toFixed(2)}
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    // 🔹 Totals Row
+    resultBody.innerHTML += `
+
+    <tr class="bg-gray-100 font-bold">
+
+        <td class="border p-3"></td>
+
+        <td class="border p-3">
+            N = ${totalFi}
+        </td>
+
+        <td class="border p-3"></td>
+
+        <td class="border p-3">
+            ΣFiXi = ${totalFixi.toFixed(2)}
+        </td>
+
+        <td class="border p-3"></td>
+
+        <td class="border p-3"></td>
+
+        <td class="border p-3">
+            ΣFi(Xi-X̄)² = ${totalFiSquare.toFixed(2)}
+        </td>
+
+    </tr>
+
+    `;
+
+    // 🔹 SD
+    const variance = totalFiSquare / totalFi;
+
+    const sd = Math.sqrt(variance);
+
+    // 🔹 Mode
+    const mode = (modalClass.lower + modalClass.upper) / 2;
+
+    // 🔹 Karl Pearson Skewness
+    const skewness = (mean - mode) / sd;
+
+    // 🔹 Formula Section
+    formulaDiv.innerHTML = `
+
+    <div>
+
+        <h2 class="text-3xl font-bold text-center mb-8">
+            Karl Pearson Skewness Solution
+        </h2>
+
+        <div class="space-y-5 text-lg">
+
+            <p>
+                <b>Step 1:</b> Mean
+            </p>
+
+            <p>
+                Mean = ΣFiXi / N
+            </p>
+
+            <p>
+                = ${totalFixi.toFixed(2)} / ${totalFi}
+            </p>
+
+            <p class="font-bold text-blue-600">
+                Mean = ${mean.toFixed(2)}
+            </p>
+
+            <hr>
+
+            <p>
+                <b>Step 2:</b> Mode
+            </p>
+
+            <p>
+                Modal Class = ${modalClass.lower}-${modalClass.upper}
+            </p>
+
+            <p class="font-bold text-green-600">
+                Mode = ${mode.toFixed(2)}
+            </p>
+
+            <hr>
+
+            <p>
+                <b>Step 3:</b> Standard Deviation
+            </p>
+
+            <p>
+                SD = √(ΣFi(Xi-X̄)² / N)
+            </p>
+
+            <p>
+                = √(${totalFiSquare.toFixed(2)} / ${totalFi})
+            </p>
+
+            <p class="font-bold text-purple-600">
+                SD = ${sd.toFixed(2)}
+            </p>
+
+            <hr>
+
+            <p>
+                <b>Step 4:</b> Karl Pearson Skewness
+            </p>
+
+            <p>
+                Sk = (Mean - Mode) / SD
+            </p>
+
+            <p>
+                = (${mean.toFixed(2)} - ${mode.toFixed(2)}) / ${sd.toFixed(2)}
+            </p>
+
+            <p class="text-3xl font-bold text-red-600">
+                Sk = ${skewness.toFixed(2)}
+            </p>
+
+        </div>
+
+    </div>
+
+    `;
+
+    document.getElementById("result-section")
+        .classList.remove("hidden");
+
+}
+
+</script>
+
+</body>
+</html>
