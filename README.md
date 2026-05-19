@@ -1,52 +1,45 @@
-#📊 StatsApp
+# 📊 StatsApp
+
 StatsApp is a full-stack statistical calculator web application developed using the MERN Stack.
 The application is designed to help students, learners, and educators perform statistical calculations quickly and efficiently with a simple and user-friendly interface.
+## 🌟 Features
 
-##🚀 Features
+🔹 Calculate Mean, Median, and Mode
 
-Calculate Mean, Median, and Mode
-Standard Deviation Calculator
-Variance Calculator
-Grouped Data Calculations
-Dynamic Input Tables
-Fast and Accurate Results
-Responsive Design for All Devices
-Clean and Modern UI
+🔹 Standard Deviation Calculator
 
-##🛠️ Tech Stack
-Frontend
-React.js
-Tailwind CSS
-JavaScript
-Backend
-Node.js
-Express.js
-Database
-MongoDB
-##📂 Installation
-Clone Repository
-git clone https://github.com/your-username/StatsApp.git
-Install Dependencies
-npm install
-Run Application
-npm start
-##🎯 Purpose of the Project
+🔹 Variance Calculator
 
-The main purpose of this project is to provide an easy-to-use platform for solving statistical problems digitally and improving learning through technology.
+🔹 Grouped Data Calculations
 
-##🔮 Future Improvements
-Graph Visualization
-Authentication System
-PDF Export
-Calculation History
-AI-based Suggestions
+🔹 Grouped Data Calculations
+
+🔹 Fast and Accurate Results
+
+🔹 Responsive Design for All Devices
+
+🔹 Deployment Ready – Configured for production on platforms like Vercel, Netlify, or Render.
+
+## 🛠️ Tech Stack
+
+## Frontend:
+
+⚡ React + Vite
+
+🎨 TailwindCSS
+
+🔄 Axios
+
+## Backend:
+
+🌐 Node.js
+
+🚀 Express.js
+
+🗄 MongoDB & Mongoose
 
 ## Project link Demo
 Click Here [StatsWeb](https://statsapp-s7rw.onrender.com)
-##👨‍💻 Author
 
-Shaik Albaz
-GitHub: https://github.com/iamshaikalbaz
-##⭐ Support
 
-If you like this project, give it a ⭐ on GitHub.
+## ✨ Made with ❤️ by [Shaik Albaz]
