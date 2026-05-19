@@ -1,9 +1,9 @@
 #📊 StatsApp
-
 StatsApp is a full-stack statistical calculator web application developed using the MERN Stack.
 The application is designed to help students, learners, and educators perform statistical calculations quickly and efficiently with a simple and user-friendly interface.
 
 ##🚀 Features
+
 Calculate Mean, Median, and Mode
 Standard Deviation Calculator
 Variance Calculator
@@ -12,6 +12,7 @@ Dynamic Input Tables
 Fast and Accurate Results
 Responsive Design for All Devices
 Clean and Modern UI
+
 ##🛠️ Tech Stack
 Frontend
 React.js
